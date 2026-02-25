@@ -1275,7 +1275,7 @@ class RemootioClient(AsyncClass):
             await self.connect()
 
         action_id: int = await self.__calculate_next_action_id()
-        frame: ActionRequestFrame = ActionRequestFrame(action_id, action_type)
+        frame: ActionRequestFrame = ActionRequestFrame(action_id, action_duration, action_type)
 
         await self.__encrypt_and_send_frame(frame)
 
