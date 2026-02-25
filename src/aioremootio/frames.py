@@ -162,10 +162,12 @@ class ChallengeFrame(AbstractFrame, AbstractJSONHolderFrame):
 
 class AbstractActionFrame(AbstractFrame):
     __action_id: int
+    __action_duration: int
     __action_type: ActionType
 
-    def __init__(self, action_id: int, action_type: ActionType):
+    def __init__(self, action_id: int, action_duration: int, action_type: ActionType):
         self.__action_id = action_id
+        self.__action_duration = action_duration
         self.__action_type = action_type
 
     @property
@@ -173,19 +175,24 @@ class AbstractActionFrame(AbstractFrame):
         return self.__action_id
 
     @property
+    def action_duration(self) -> int:
+        return self.__action_duration
+
+    @property
     def action_type(self) -> ActionType:
         return self.__action_type
 
 
 class ActionRequestFrame(AbstractActionFrame, AbstractJSONHolderFrame):
-    def __init__(self, action_id: int, action_type: ActionType):
-        super(ActionRequestFrame, self).__init__(action_id, action_type)
+    def __init__(self, action_id: int, action_duration: int, action_type: ActionType):
+        super(ActionRequestFrame, self).__init__(action_id, action_duration, action_type)
 
     @property
     def json(self) -> dict:
         return {
             "action": {
                 "id": self.action_id,
+                "duration": self.action_duration,
                 "type": self.action_type.value
             }
         }
